@@ -1,0 +1,42 @@
+# This file contains all of the export definitions for our environment.
+
+# Set the $BROWSER environment variable in a portable way:
+# This determines what command will be used when opening URLs from the shell.
+if grep -qi microsoft /proc/version; then
+    # Detected WSL (Windows Subsystem for Linux)
+    # Prefer using 'wslview' if installed, which properly opens URLs in Windows' default browser.
+    if command -v wslview >/dev/null 2>&1; then
+        export BROWSER='wslview'
+    else
+        # Fallback if 'wslview' is not installed:
+        # Use Windows' cmd.exe 'start' command to open URLs.
+        # The empty "" is a placeholder for the window title required by 'start',
+        # which prevents the URL from being misinterpreted as a file path.
+        export BROWSER='cmd.exe /c start ""'
+    fi
+else
+    # Native Linux environment (Debian/Ubuntu, etc.)
+    # Use 'xdg-open', which opens URLs using the system's default browser.
+    export BROWSER='xdg-open'
+fi
+
+# Ensure the ~/.cache directory exists to store persistent but non-configuration data
+mkdir -p "$HOME/.cache"
+
+# Set the path where Bash will store the command history file
+export HISTFILE="$HOME/.cache/.bash_history"
+
+# Maximum number of commands to keep in memory for the current session
+HISTSIZE=1000
+
+# Maximum number of commands to save to the history file on disk
+HISTFILESIZE=2000
+
+# Controls what gets saved to history:
+#   - 'ignoredups' ignores duplicate commands
+#   - 'ignorespace' ignores commands starting with a space
+#   - 'ignoreboth' applies both rules
+HISTCONTROL=ignoreboth
+
+# Append new history lines to the history file instead of overwriting it
+shopt -s histappend

@@ -1,0 +1,13 @@
+# This file contains all of the aliases for the shell.
+
+# Aliases to simplify the listing of directories
+alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Aliases for interacting with Python
+alias py="python3"
+
+# Manage dotfiles repository
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
