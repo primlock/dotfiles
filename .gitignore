@@ -1,0 +1,2 @@
+# Ignore the source repository to avoid recursion problems
+.dotfiles
