@@ -6,6 +6,9 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# Use colors when running the tree command
+alias tree='tree -C'
+
 # Aliases for interacting with Python
 alias py="python3"
 
