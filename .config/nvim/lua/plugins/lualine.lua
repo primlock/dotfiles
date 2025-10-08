@@ -5,12 +5,13 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
 
   config = function()
-    local everforest_theme = require("lualine.themes.everforest")
+    -- Get the global colorscheme and apply that theme to lualine
+    local colorscheme = vim.g.current_colorscheme or "auto"
 
     require('lualine').setup({
       options = {
         icons_enabled = true,
-        theme = everforest_theme,
+        theme = colorscheme,
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
         disabled_filetypes = {
