@@ -37,7 +37,7 @@ return {
             width = "40%",           -- Change horizontal size
           },
           position = "50%",          -- Center the popup
-          title = "File Explorer",
+          title = function() return "File Explorer" end,
           title_pos = "center",
         },
         border = {
