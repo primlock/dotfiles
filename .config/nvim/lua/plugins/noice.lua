@@ -1,10 +1,20 @@
 -- noice is an plugin designed to overhaul the user interface for messages, the command line, and the 
--- popupmenu
+-- popupmenu. If you have telescope.nvim installed then you can use the `notify` extension to search the
+-- history (:Telescope notify)
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
   dependencies = {
-    "MunifTanjim/nui.nvim",
+    "MunifTanjim/nui.nvim", -- UI Component Library for Neovim
+    {
+      "rcarriga/nvim-notify", -- For routes using the `notify` view
+      opts = {
+        stages = "fade",            -- Use a fade animation when showing the popup window
+        timeout = 3000,             -- The duration of the popup
+        render = "wrapped-compact", -- Use the compact view which will wrap the text
+        max_width = 60,             -- Constrain the max width of the popup
+      },
+    },
   },
   opts = {
     lsp = {
