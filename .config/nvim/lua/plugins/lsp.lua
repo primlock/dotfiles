@@ -55,18 +55,17 @@ return {
         vim.keymap.set("n", "<C-d>", lsp_diagnostic.open_float, opts)
       end
 
-      -- Define the diagnostic symbols
-      local signs = {
-          Error = "",
-          Warn  = "",
-          Hint  = "",
-          Info  = "",
-      }
-
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
+      -- Define the diagnostic symbols. This syntax complies with the sign_define deprecation from Neovim 0.10
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.HINT] = "",
+            [vim.diagnostic.severity.INFO] = "",
+          },
+        },
+      })
 
       -- List of servers you want to manually configure. For the full list of options see 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
