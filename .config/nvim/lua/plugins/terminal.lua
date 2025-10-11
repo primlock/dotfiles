@@ -11,13 +11,14 @@ return {
         open_mapping = [[<C-\>]],
         shade_terminals = true,
         float_opts = { border = "curved" },
-        size = function(term)
+        size = function(term) -- Constrain the size of the terminal window
           if term.direction == "horizontal" then
-            return 15 -- height in rows
+            return 15 -- Height in rows
           elseif term.direction == "vertical" then
             return math.floor(vim.o.columns * 0.4) -- 40% of editor width
           end
         end,
+        direction = "float", -- Open up a floating window by default
       })
 
       -- Tables to track multiple terminals
