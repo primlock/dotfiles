@@ -14,12 +14,8 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      -- The `require('lspconfig')` "framework" is deprecated, use vim.lsp.config 
-      local lspconfig = require("lspconfig")
       local mason = require("mason")
       local mason_lspconfig = require("mason-lspconfig")
-
-      -- vim.lsp.config
 
       -- Start Mason
       mason.setup()
@@ -98,15 +94,17 @@ return {
         clangd = { },
       }
 
-      -- TODO: add support for CMake, YANG, Python, YAML
-
-      -- Set up each server
+      -- Configure each server in the list to comply with the migration away from require("lspconfig") in
+      -- favor of vim.lsp.config
       for server, config in pairs(servers) do
-        lspconfig[server].setup({
+        vim.lsp.config(server, {
           capabilities = capabilities,
           on_attach = on_attach,
           settings = config.settings,
         })
+
+        -- Enable the server
+        vim.lsp.enable(server, true)
       end
     end,
   },
