@@ -6,9 +6,9 @@ return {
   config = function()
     local datetime = os.date("%Y-%m-%d %H:%M:%S")
     -- Header style
-    vim.api.nvim_set_hl(0, "DashboardHeader", { fg = "#7FBBB3", bold = true })
+    vim.api.nvim_set_hl(0, "DashboardHeader", { fg = "#5E81AC", bold = true })
     -- Footer style
-    vim.api.nvim_set_hl(0, "DashboardFooter", { fg = "#56635F", italic = true })
+    vim.api.nvim_set_hl(0, "DashboardFooter", { fg = "#E5E9F0", italic = true })
 
     require('dashboard').setup({
       theme = 'hyper',
@@ -34,7 +34,7 @@ return {
           {
             icon_hl = '@variable',
             desc = ' files',
-            group = 'Label',
+            group = '@Error',
             action = 'Telescope find_files',
             key = 'f',
           },
