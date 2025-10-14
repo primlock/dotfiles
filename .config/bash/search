@@ -1,0 +1,10 @@
+# This file defines how search works on the command line
+
+# Enable fzf keybindings and fuzzy search for history (Ctrl+R to search command history)
+source /usr/share/doc/fzf/examples/key-bindings.bash
+
+# Customize the behavior of fzf's Ctrl+R integration, such as sorting and previewing history entries
+export FZF_CTRL_R_OPTS="--sort"
+
+# Set default visual and layout options for all fzf interfaces (height, border, orientation)
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse"
