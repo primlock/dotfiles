@@ -20,11 +20,8 @@ else
     export BROWSER='xdg-open'
 fi
 
-# Ensure the ~/.cache directory exists to store persistent but non-configuration data
-mkdir -p "$HOME/.cache"
-
 # Set the path where Bash will store the command history file
-export HISTFILE="$HOME/.cache/.bash_history"
+export HISTFILE="$HOME/.bash_history"
 
 # Maximum number of commands to keep in memory for the current session
 HISTSIZE=1000
