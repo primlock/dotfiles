@@ -33,10 +33,16 @@ BG_PURPLE="\[\033[45m\]"
 BG_CYAN="\[\033[46m\]"
 BG_WHITE="\[\033[47m\]"
 
+# Function to extract current git branch
+parse_git_branch() {
+  git rev-parse --abbrev-ref HEAD 2>/dev/null
+}
+
 # Prompt Structure:
 #
 # ~/current/working/dir [branch]
 # $
 
-PS1="${BRIGHT_BLUE}\w${COLOR_NONE}\n${BRIGHT_GREEN}\$ ${COLOR_NONE}"
-
+PS1="${BRIGHT_BLUE}\w${COLOR_NONE}\$(branch=\$(parse_git_branch); \
+[[ -n \$branch ]] && echo \" [${BRIGHT_PURPLE}\$branch${COLOR_NONE}]\")\
+${COLOR_NONE}\n${BRIGHT_GREEN}\$ ${COLOR_NONE}"
