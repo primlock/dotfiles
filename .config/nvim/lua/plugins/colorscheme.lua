@@ -7,6 +7,9 @@ return {
     init = function ()
       -- Enables or disables italics
       vim.g.nord_italic = false
+
+      -- Enables or disables bold text
+      vim.g.nord_bold = false
     end,
   },
   {
