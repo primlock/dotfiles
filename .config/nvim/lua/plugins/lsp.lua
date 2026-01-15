@@ -25,6 +25,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "clangd",
+		  "pyright",
         },
         automatic_enable = false,
       })
@@ -91,6 +92,18 @@ return {
         },
         -- C/C++ configuration
         clangd = { },
+        -- Python configuration
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+              },
+            },
+          },
+        },
       }
 
       -- Configure each server in the list to comply with the migration away from require("lspconfig") in

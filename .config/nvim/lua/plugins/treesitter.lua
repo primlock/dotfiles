@@ -5,14 +5,15 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   opts = {
-     ensure_installed = {
+    ensure_installed = {
       "bash",
       "json",
       "lua",
       "vim",
       "c",
       "cpp",
-      "regex"
+      "regex",
+	  "python",
     },
   },
 }
