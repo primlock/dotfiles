@@ -8,16 +8,16 @@ vim.opt.relativenumber = true
 vim.opt.clipboard:append("unnamedplus")
 
 -- Define the the equivalent number of spaces
-vim.opt.tabstop = 2
+vim.opt.tabstop = 4
 
 -- Length to use when shifting text (0 for tabstop)
-vim.opt.shiftwidth = 2
+vim.opt.shiftwidth = 0
 
 -- The length to use when editing text
-vim.opt.softtabstop = 0
+-- vim.opt.softtabstop = 0
 
 -- Use spaces when pressing <TAB>
-vim.opt.expandtab = true -- use spaces
+-- vim.opt.expandtab = true -- use spaces
 
 -- Disable word wrapping in vim
 vim.opt.wrap = false
@@ -36,3 +36,23 @@ vim.opt.termguicolors = true
 
 -- Define the default text with that should be used when formatting
 vim.opt.textwidth = 110
+
+-- Visually show the whitespace characters
+if vim.fn.has("multi_byte") == 1 and vim.o.encoding == "utf-8" then
+    vim.opt.listchars = {
+        tab = "▸ ",
+        trail = "~",
+        extends = "❯",
+        precedes = "❮",
+        nbsp = "±",
+    }
+else
+    vim.opt.listchars = {
+        tab = "> ",
+        trail = "~",
+        extends = ">",
+        precedes = "<",
+        nbsp = ".",
+    }
+end
+vim.opt.list = true

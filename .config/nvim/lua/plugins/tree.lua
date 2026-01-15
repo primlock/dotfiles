@@ -25,7 +25,7 @@ return {
         use_libuv_file_watcher = true,
         filtered_items = {
           hide_dotfiles = false,    -- Show dotfiles by default
-          hide_gitignored = true,   -- Hide .gitignored files
+          hide_gitignored = false,   -- Hide .gitignored files
         },
       },
 

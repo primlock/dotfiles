@@ -12,8 +12,7 @@ return {
       "vim",
       "c",
       "cpp",
-      "regex",
-      -- TODO: add support for CMake, YANG, Python, YAML
+      "regex"
     },
   },
 }
