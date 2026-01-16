@@ -14,23 +14,6 @@ return {
         right_trunc_marker = " ",
         separator_style = "slant",
       },
-      highlights = {
-        -- Override the highlight group for the selected buffer
-        buffer_selected = {
-          bold = false, -- Set bold to false to disable
-          italic = false,
-        },
-        -- Also override for inactive buffers if they appear bold
-        buffer_inactive = {
-          bold = false,
-          italic = false,
-        },
-        -- Override the highlight group for the selected buffer's visible area
-        buffer_visible_selected = {
-          bold = false,
-          italic = false,
-        },
-      },
     })
 
     -- Cycle buffers
