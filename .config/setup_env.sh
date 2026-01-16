@@ -61,6 +61,7 @@ packages=(
   gnupg
   # Developer tools
   git
+  tmux
   # Build tools
   build-essential
   make
