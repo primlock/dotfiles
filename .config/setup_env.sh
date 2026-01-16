@@ -81,6 +81,7 @@ packages=(
   tar
   fzf
   tree
+  shfmt
 )
 
 # Required binaries from remote archives
