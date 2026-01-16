@@ -17,16 +17,16 @@
 #
 # Usage:
 #   1. Make the script executable:
-#        chmod +x config_setup.sh
+#        chmod +x setup_config.sh
 #
 #   2. Run the script normally:
-#        ./config_setup.sh
+#        ./setup_config.sh
 #
 #   3. (Optional) Run in dry-run mode to preview what would be installed:
-#        ./config_setup.sh --dry-run
+#        ./setup_config.sh --dry-run
 #
 #   4. (Optional) Run with sudo privileges upfront to avoid multiple password prompts:
-#        sudo ./config_setup.sh#
+#        sudo ./setup_config.sh
 #
 # Notes:
 #   - This script must be run on a Debian or Ubuntu system with an internet connection
@@ -66,6 +66,54 @@ install_package() {
   success "${package} installed successfully"
 }
 
+# Install a binary from a URL
+install_binary() {
+  local name=$1
+  local url=$2
+
+  info "Installing $name from $url..."
+
+  tmp_dir=$(mktemp -d)
+  archive="$tmp_dir/archive"
+
+  # Download the file
+  if command_exists wget; then
+    wget -q --show-progress -O "$archive" "$url"
+  elif command_exists curl; then
+    curl -L -sS -o "$archive" "$url"
+  else
+    error "Neither wget nor curl is installed"
+    return 1
+  fi
+
+  # Extract based on file type
+  case "$url" in
+    *.tar.gz|*.tgz)
+      tar -xzf "$archive" -C "$tmp_dir"
+      ;;
+    *.zip)
+      unzip -q "$archive" -d "$tmp_dir"
+      ;;
+    *)
+      cp "$archive" "$tmp_dir/$name"
+      ;;
+  esac
+
+  # Find the binary (first executable in tmp_dir)
+  binary_path=$(find "$tmp_dir" -maxdepth 1 -type f -executable | head -n1)
+  if [[ -z "$binary_path" ]]; then
+    error "Could not find executable in archive"
+    rm -rf "$tmp_dir"
+    return 1
+  fi
+
+  sudo mv "$binary_path" /usr/local/bin/
+  sudo chmod +x /usr/local/bin/"$name"
+  rm -rf "$tmp_dir"
+
+  success "$name installed successfully"
+}
+
 # Main logic
 main() {
   if $DRY_RUN; then
@@ -75,7 +123,7 @@ main() {
   info "Updating package lists..."
   sudo apt update -y
 
-  # List of required dependencies
+  # List of required packages
   local dependencies=(
     git
     wget
@@ -83,6 +131,11 @@ main() {
     unzip
     clangd
     fzf
+  )
+
+  # Define binaries to install
+  declare -A binaries=(
+    ["stylua"]="https://github.com/JohnnyMorganz/StyLua/releases/download/v2.3.1/stylua-linux-x86_64.zip"
   )
 
   # Check that we're on a Debian-based system
@@ -93,6 +146,7 @@ main() {
 
   info "Detected Ubuntu/Debian system"
 
+  # Install packages
   for dep in "${dependencies[@]}"; do
     if command_exists "$dep"; then
       success "${dep} is already installed"
@@ -101,6 +155,20 @@ main() {
         info "Would install: ${dep}"
       else
         install_package "$dep" 
+      fi
+    fi
+  done
+
+  # Install binaries
+  for name in "${!binaries[@]}"; do
+    url=${binaries[$name]}
+    if command_exists "$name"; then
+        success "${name} is already installed"
+    else
+      if $DRY_RUN; then
+        info "Would install $name from $url"
+      else
+        install_binary "$name" "$url"
       fi
     fi
   done
