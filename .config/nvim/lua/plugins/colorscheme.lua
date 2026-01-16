@@ -12,12 +12,4 @@ return {
       vim.g.nord_bold = false
     end,
   },
-  {
-    "sainnhe/everforest",
-    name = "everforest",
-  },
-  {
-    "agude/vim-eldar",
-    name = "eldar"
-  },
 }
