@@ -38,9 +38,6 @@ return {
           row = 0,
           col = 1
         },
-        yadm = {
-          enable = true
-        },
       }
 
 	  -- Setup the key mappings for gitsigns
