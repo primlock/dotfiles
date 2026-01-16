@@ -148,6 +148,7 @@ main() {
     dos2unix
     unzip
     fzf
+    tree
   )
 
   # Define binaries to install
