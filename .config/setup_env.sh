@@ -10,8 +10,8 @@
 #     1. Verifies the system is Ubuntu/Debian (checks /etc/debian_version)
 #     2. Defines a list of core dependencies
 #     3. Checks if each dependency is already installed
-#     4. Installs any missing packages using apt
-#     5. Displays clear, color-coded status messages for each step
+#     4. Installs any missing dependencies with apt or by downloading, extracting and installing the archive
+#        manually
 #
 #   Re-running this script is safe; already installed packages will be skipped
 #
@@ -54,11 +54,58 @@ info()    { echo -e "${YELLOW}[INFO]${RESET} $*"; }
 success() { echo -e "${GREEN}[OK]${RESET} $*"; }
 error()   { echo -e "${RED}[ERROR]${RESET} $*" >&2; }
 
+# Required packages
+packages=(
+  # Package management
+  ca-certificates
+  gnupg
+  # Developer tools
+  git
+  # Build tools
+  build-essential
+  make
+  cmake
+  cmake-format
+  clangd
+  ninja-build
+  pkg-config
+  gdb
+  valgrind
+  python3
+  # Network tools
+  wget
+  curl
+  # CLI utilities
+  dos2unix
+  unzip
+  tar
+  fzf
+  tree
+)
+
+# Required binaries from remote archives
+#
+# Each entry maps a binary name to a pipe-delimited string:
+#   URL|path_in_archive|install_directory|type
+#
+# Fields:
+#   - URL             : location of the archive (.zip or .tar.gz)
+#   - path_in_archive : relative path to binary or root folder inside the archive
+#   - install_directory : target directory for installation
+#   - type            : install type, either "bin" (single binary) or "prefix" (full directory)
+declare -A archives=(
+  ["stylua"]="https://github.com/JohnnyMorganz/StyLua/releases/download/v2.3.1/stylua-linux-x86_64.zip|stylua|/usr/local/bin|bin"
+  ["nvim"]="https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-x86_64.tar.gz|nvim-linux-x86_64|/opt/nvim|prefix"
+)
+
 command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
-# Install a package via apt
+# Installs a Debian/Ubuntu package via apt
+#
+# Parameters:
+#   $1 - package : name of the package to install
 install_package() {
   local package=$1
   info "Installing ${package}..."
@@ -66,27 +113,45 @@ install_package() {
   success "${package} installed successfully"
 }
 
-# Install a binary from a URL
-install_binary() {
+# Downloads and installs a tool from a remote archive (.zip or .tar.gz)
+# Supports two types:
+#   - bin: single executable copied to the target directory
+#   - prefix: full directory moved to the install path, with optional symlink to /usr/local/bin
+#
+# Parameters:
+#   $1 - name       : tool/command name
+#   $2 - spec       : pipe-delimited string: URL|path_in_archive|install_directory|type
+#                     e.g., "https://.../tool.zip|tool|/usr/local/bin|bin"
+#                           "https://.../nvim.tar.gz|nvim-linux-x86_64|/opt/nvim|prefix"
+install_archive() {
   local name=$1
-  local url=$2
+  local spec=$2
 
-  info "Installing $name from $url..."
+  IFS='|' read -r url path install_dir type <<< "$spec"
+
+  # Skip if install directory doesn't exist
+  if [ ! -d "$install_dir" ]; then
+    error "Install directory $install_dir not found"
+    return 1
+  fi
+
+  info "Installing $name from $url"
 
   tmp_dir=$(mktemp -d)
   archive="$tmp_dir/archive"
 
-  # Download the file
+  # Download
   if command_exists wget; then
     wget -q --show-progress -O "$archive" "$url"
   elif command_exists curl; then
     curl -L -sS -o "$archive" "$url"
   else
-    error "Neither wget nor curl is installed"
+    error "Neither wget or curl is installed"
+    rm -rf "$tmp_dir"
     return 1
   fi
 
-  # Extract based on file type
+  # Extract
   case "$url" in
     *.tar.gz|*.tgz)
       tar -xzf "$archive" -C "$tmp_dir"
@@ -95,26 +160,51 @@ install_binary() {
       unzip -q "$archive" -d "$tmp_dir"
       ;;
     *)
-      cp "$archive" "$tmp_dir/$name"
+      error "Unsupported archive format: $url"
+      rm -rf "$tmp_dir"
+      return 1
       ;;
   esac
 
-  # Find the binary (first executable in tmp_dir)
-  binary_path=$(find "$tmp_dir" -maxdepth 1 -type f -executable | head -n1)
-  if [[ -z "$binary_path" ]]; then
-    error "Could not find executable in archive"
-    rm -rf "$tmp_dir"
-    return 1
-  fi
+  case "$type" in
+    bin)
+      local src="$tmp_dir/$path"
+      [[ -f "$src" ]] || {
+        error "Binary not found: $path"
+        rm -rf "$tmp_dir"
+        return 1
+      }
 
-  sudo mv "$binary_path" /usr/local/bin/
-  sudo chmod +x /usr/local/bin/"$name"
+      sudo install -m 0755 "$src" "$install_dir/$name"
+      ;;
+
+    prefix)
+      local src="$tmp_dir/$path"
+      [[ -d "$src" ]] || {
+        error "Prefix directory not found: $path"
+        rm -rf "$tmp_dir"
+        return 1
+      }
+
+      # Replace existing install
+      sudo rm -rf "$install_dir"
+      sudo mv "$src" "$install_dir"
+
+      # Create symlink
+      sudo ln -sf "$install_dir/bin/$name" "/usr/local/bin/$name"
+      ;;
+
+    *)
+      error "Unknown install type: $type"
+      rm -rf "$tmp_dir"
+      return 1
+      ;;
+  esac
+
   rm -rf "$tmp_dir"
-
   success "$name installed successfully"
 }
 
-# Main logic
 main() {
   if $DRY_RUN; then
     info "Running in dry-run mode — no changes will be made"
@@ -122,39 +212,6 @@ main() {
     info "Updating package lists..."
     sudo apt update -y
   fi
-
-  # List of required packages
-  local dependencies=(
-    # Package management
-    ca-certificates
-    gnupg
-    # Developer tools
-    git
-    # Build tools
-    build-essential
-    make
-    cmake
-    cmake-format
-    clangd
-    ninja-build
-    pkg-config
-    gdb
-    valgrind
-    python3
-    # Network tools
-    wget
-    curl
-    # CLI utilities
-    dos2unix
-    unzip
-    fzf
-    tree
-  )
-
-  # Define binaries to install
-  declare -A binaries=(
-    ["stylua"]="https://github.com/JohnnyMorganz/StyLua/releases/download/v2.3.1/stylua-linux-x86_64.zip"
-  )
 
   # Check that we're on a Debian-based system
   if [[ ! -f /etc/debian_version ]]; then
@@ -164,29 +221,28 @@ main() {
 
   info "Detected Ubuntu/Debian system"
 
-  for dep in "${dependencies[@]}"; do
-    if dpkg -s "$dep" >/dev/null 2>&1; then
-      success "${dep} is already installed"
+  # Install our required packages
+  for package in "${packages[@]}"; do
+    if dpkg -s "$package" >/dev/null 2>&1; then
+      success "${package} is already installed"
     else
       if $DRY_RUN; then
-        info "Would install ${dep}"
+        info "Would install ${package}"
       else
-        install_package "$dep"
+        install_package "$package"
       fi
     fi
   done
 
-
-  # Install binaries
-  for name in "${!binaries[@]}"; do
-    url=${binaries[$name]}
+  # Install our required binaries
+  for name in "${!archives[@]}"; do
     if command_exists "$name"; then
-        success "${name} is already installed"
+      success "$name is already installed"
     else
       if $DRY_RUN; then
-        info "Would install $name from $url"
+        info "Would install $name"
       else
-        install_binary "$name" "$url"
+        install_archive "$name" "${archives[$name]}"
       fi
     fi
   done
