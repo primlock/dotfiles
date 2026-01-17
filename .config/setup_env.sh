@@ -131,10 +131,10 @@ install_archive() {
 
   IFS='|' read -r url path install_dir type <<< "$spec"
 
-  # Skip if install directory doesn't exist
+  # Create the sub-directory if it does not already exist
   if [ ! -d "$install_dir" ]; then
-    error "Install directory $install_dir not found"
-    return 1
+    mkdir -p $install_dir
+    success "Created install directory $install_dir"
   fi
 
   info "Installing $name from $url"
@@ -250,7 +250,7 @@ main() {
   done
 
   if ! $DRY_RUN; then
-    info "All dependencies checked and installed as needed"
+    success "All environment dependencies are installed"
   fi
 }
 
