@@ -208,7 +208,7 @@ EOF
     fi
   done
 
-  # Enable Docker service
+  # Enable Docker service and add the user to the docker group
   if command_exists systemctl; then
     if $DRY_RUN; then
       info "Would enable and start Docker service"
@@ -217,6 +217,18 @@ EOF
       sudo systemctl enable docker
       sudo systemctl start docker
       success "Docker service enabled and running"
+
+      TARGET_USER="${SUDO_USER:-$USER}"
+  
+      if id -nG "$TARGET_USER" | grep -qw docker; then
+        success "User '${TARGET_USER}' is already in the docker group"
+      else
+        info "Adding ${TARGET_USER} to docker group"
+        sudo usermod -aG docker "$TARGET_USER"
+        success "User '${TARGET_USER}' added to docker group"
+  
+        info "You must log out and log back in for this change to take effect"
+      fi
     fi
   fi
 
