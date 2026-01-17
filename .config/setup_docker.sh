@@ -56,6 +56,9 @@ if [[ "${1:-}" == "--dry-run" ]]; then
   DRY_RUN=true
 fi
 
+# The name of the base script
+BASE_SCRIPT="setup_env.sh"
+
 # Helper functions
 info()    { echo -e "${YELLOW}[INFO]${RESET} $*"; }
 success() { echo -e "${GREEN}[OK]${RESET} $*"; }
@@ -71,16 +74,21 @@ main() {
     info "Running in dry-run mode — no changes will be made"
   fi
 
-  # Check that we're on a Debian-based system
-  if [[ ! -f /etc/debian_version ]]; then
-    error "This script only supports Ubuntu/Debian systems"
+  # Determine OS and codename
+  . /etc/os-release
+
+  if [[ "$ID" != "ubuntu" && "$ID" != "debian" ]]; then
+    error "This script only supports Ubuntu or Debian"
     exit 1
   fi
 
-  info "Detected Ubuntu/Debian system"
+  success "${ID} is supported by this setup script"
+  
+  # Save the version codename to access the correct download repositories
+  CODENAME="$VERSION_CODENAME"
 
-  # Check for dependencies
-  info "Checking required dependencies..."
+  # Check the system for dependencies
+  info "Checking for required dependencies..."
 
   local required_commands=(
     apt
@@ -99,7 +107,7 @@ main() {
 
   if [[ "${#missing[@]}" -ne 0 ]]; then
     error "Missing required dependencies: ${missing[*]}"
-    error "Please run the base setup script before installing Docker"
+    error "Please run ${BASE_SCRIPT} before this script"
     exit 1
   fi
 
@@ -123,6 +131,7 @@ main() {
   KEYRING_DIR="/etc/apt/keyrings"
   DOCKER_KEYRING="${KEYRING_DIR}/docker.asc"
   DOCKER_SOURCES="/etc/apt/sources.list.d/docker.sources"
+  DOCKER_DISTRO_URL="https://download.docker.com/linux/${ID}"
 
   info "Updating package lists..."
   if ! $DRY_RUN; then
@@ -148,16 +157,13 @@ main() {
       info "Would download Docker GPG key"
     else
       info "Downloading Docker GPG key..."
-      sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o "$DOCKER_KEYRING"
+      sudo curl -fsSL "${DOCKER_DISTRO_URL}/gpg" -o "$DOCKER_KEYRING"
       sudo chmod a+r "$DOCKER_KEYRING"
       success "Docker GPG key installed"
     fi
   else
     success "Docker GPG key already exists"
   fi
-
-  # Determine Debian codename
-  CODENAME="$(. /etc/os-release && echo "$VERSION_CODENAME")"
 
   # Add Docker repository
   if [[ ! -f "$DOCKER_SOURCES" ]]; then
@@ -167,7 +173,7 @@ main() {
       info "Adding Docker APT repository..."
       sudo tee "$DOCKER_SOURCES" > /dev/null <<EOF
 Types: deb
-URIs: https://download.docker.com/linux/debian
+URIs: ${DOCKER_DISTRO_URL}
 Suites: ${CODENAME}
 Components: stable
 Signed-By: ${DOCKER_KEYRING}
