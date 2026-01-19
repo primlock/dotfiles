@@ -60,9 +60,9 @@ fi
 BASE_SCRIPT="setup_env.sh"
 
 # Helper functions
-info()    { echo -e "${YELLOW}[INFO]${RESET} $*"; }
+info() { echo -e "${YELLOW}[INFO]${RESET} $*"; }
 success() { echo -e "${GREEN}[OK]${RESET} $*"; }
-error()   { echo -e "${RED}[ERROR]${RESET} $*" >&2; }
+error() { echo -e "${RED}[ERROR]${RESET} $*" >&2; }
 
 command_exists() {
   command -v "$1" >/dev/null 2>&1
@@ -83,7 +83,7 @@ main() {
   fi
 
   success "${ID} is supported by this setup script"
-  
+
   # Save the version codename to access the correct download repositories
   CODENAME="$VERSION_CODENAME"
 
@@ -171,7 +171,7 @@ main() {
       info "Would add Docker APT repository for suite '${CODENAME}'"
     else
       info "Adding Docker APT repository..."
-      sudo tee "$DOCKER_SOURCES" > /dev/null <<EOF
+      sudo tee "$DOCKER_SOURCES" >/dev/null <<EOF
 Types: deb
 URIs: ${DOCKER_DISTRO_URL}
 Suites: ${CODENAME}
@@ -225,14 +225,14 @@ EOF
       success "Docker service enabled and running"
 
       TARGET_USER="${SUDO_USER:-$USER}"
-  
+
       if id -nG "$TARGET_USER" | grep -qw docker; then
         success "User '${TARGET_USER}' is already in the docker group"
       else
         info "Adding ${TARGET_USER} to docker group"
         sudo usermod -aG docker "$TARGET_USER"
         success "User '${TARGET_USER}' added to docker group"
-  
+
         info "You must log out and log back in for this change to take effect"
       fi
     fi
