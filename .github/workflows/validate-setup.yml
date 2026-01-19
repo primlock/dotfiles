@@ -26,5 +26,5 @@ jobs:
 
       - name: Run the setup script
         run: |
-          chmod +x ./setup_env.sh
-          ./setup_env.sh
+          chmod +x .config/setup_env.sh
+          .config/setup_env.sh
