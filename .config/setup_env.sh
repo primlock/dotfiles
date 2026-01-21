@@ -81,6 +81,7 @@ packages=(
   unzip
   tar
   fzf
+  ripgrep
   tree
   shfmt
 )
