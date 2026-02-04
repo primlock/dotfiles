@@ -84,6 +84,7 @@ packages=(
   ripgrep
   tree
   shfmt
+  xclip
 )
 
 # Required binaries from remote archives
