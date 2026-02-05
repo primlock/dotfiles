@@ -7,13 +7,13 @@
 # by a user). If not, we're in a non-interactive shell (like when running a script). Returning here prevents
 # loading prompt, aliases, and other interactive features that could break or slow down scripts
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # Go get the user configs we defined in ~/.config/bash if they exist.
 for file in ~/.config/bash/{exports,aliases,prompt,search}; do
-    [ -r "$file" ] && . "$file"
+  [ -r "$file" ] && . "$file"
 done
 
 # Enable programmable bash completion (tab-completion for commands like git, docker, etc.). Skip if running in
@@ -26,4 +26,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
