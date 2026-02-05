@@ -81,8 +81,10 @@ packages=(
   unzip
   tar
   fzf
+  ripgrep
   tree
   shfmt
+  xclip
 )
 
 # Required binaries from remote archives
