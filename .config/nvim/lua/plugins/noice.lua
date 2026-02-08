@@ -9,10 +9,11 @@ return {
     {
       "rcarriga/nvim-notify", -- For routes using the `notify` view
       opts = {
-        stages = "fade",            -- Use a fade animation when showing the popup window
-        timeout = 3000,             -- The duration of the popup
-        render = "wrapped-compact", -- Use the compact view which will wrap the text
-        max_width = 60,             -- Constrain the max width of the popup
+        stages = "fade",                -- Use a fade animation when showing the popup window
+        timeout = 3000,                 -- The duration of the popup
+        render = "wrapped-compact",     -- Use the compact view which will wrap the text
+        max_width = 60,                 -- Constrain the max width of the popup
+        background_colour = "#000000",  -- Use #000000 to support transparent background
       },
     },
   },
