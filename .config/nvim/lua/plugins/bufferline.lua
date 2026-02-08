@@ -12,7 +12,7 @@ return {
         close_icon = " ",
         left_trunc_marker = " ",
         right_trunc_marker = " ",
-        separator_style = "slant",
+        separator_style = "thin",
       },
     })
 
