@@ -14,3 +14,6 @@ alias py="python3"
 
 # Manage dotfiles repository
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+# Put the machine into hibernate mode
+alias hibernate='sudo systemctl hibernate'
