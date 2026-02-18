@@ -1,0 +1,139 @@
+# sway/config is the configuration file for the sway window manager. It defines the collection of defaults,
+# keybinding and utilities to customize sway
+
+# Use the Windows key as the modifier key
+set $mod Mod4
+
+# Define the workspace names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+
+# Don't shift focus with the mouse
+focus_follows_mouse no
+
+# Keybindings
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Lock the screen
+bindsym $mod+l exec swaylock --image $HOME/.config/sway/img/minimal-nord.png
+
+# Exit sway
+bindsym $mod+Shift+e exec swaymsg exit
+
+# Start an alacritty terminal (requires alacritty)
+bindsym $mod+Return exec alacritty
+
+# Kill focused window
+bindsym $mod+q kill
+
+# Start an app launcher (requires wofi)
+bindsym $mod+d exec "pkill wofi; wofi --show drun -p Search"
+
+# Cycle to the next workspace
+bindsym Mod1+Tab workspace next
+
+# Cycle to the previous workspace
+bindsym Mod1+Shift+Tab workspace prev
+
+# Change window focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move a focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Launch the next open window vertically
+bindsym $mod+v split vertical
+
+# Launch the next open window horizontally
+bindsym $mod+h split horizontal
+
+# Grow/shrink a focused window in `resize` mode
+mode "resize" {
+    bindsym Left  resize shrink width 10 px
+    bindsym Down  resize grow   height 10 px
+    bindsym Up    resize shrink height 10 px
+    bindsym Right resize grow   width 10 px
+
+    # Exit resize mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Enter resize mode
+bindsym $mod+r mode "resize"
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# Toggle between tiling and floating
+bindsym $mod+Shift+space floating toggle
+
+# Switch to a workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+
+# Window Pane Customizations
+
+# Increase the DPI scaling - firefox to 1.75 scaling (layout.css.devPixelsPerPx = 1.75)
+output * scale 1.25
+
+# Inner window gap
+gaps inner 10
+
+# Outer window gap
+gaps outer 5
+
+# Hide/show gaps if more than one window
+smart_gaps off
+
+# Enable/disable window borders
+smart_borders on
+
+# Show/Hide the window header bar
+default_border none
+default_floating_border none
+
+# Set the background image
+exec_always --no-startup-id swaybg -i $HOME/.config/sway/img/nordic-nature-forest.png -m fill
+
+# System controls
+
+# Launch the status bar
+exec_always --no-startup-id sh -c "pkill -x waybar; waybar"
+
+# Increase/decrease the brightness (requires brightnessctl)
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
+# Mute/increase/decrease the volume (requires pipewire)
+bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ 
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+

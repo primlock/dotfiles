@@ -1,0 +1,66 @@
+[font]
+size = 10.0
+
+[font.normal]
+family = "FiraCode Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "FiraCode Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "FiraCode Nerd Font"
+style = "Italic"
+
+[keyboard]
+bindings = [
+	# Paste from clipboard (uses 'action')
+	{ key = "V", mods = "Control|Shift", action = "Paste" },
+
+	# Copy to clipboard (uses 'action')
+	{ key = "C", mods = "Control|Shift", action = "Copy" }
+]
+
+[window]
+opacity = 0.9
+padding = { x = 12, y = 10 }
+
+[colors]
+
+# Default colors
+[colors.primary]
+background = "0x2E3440" # --nord-bg-0
+foreground = "0xECEFF4" # --nord-fg-0
+
+# Normal colors
+[colors.normal]
+black   = "0x3B4252" # --nord-bg-1
+red     = "0xBF616A" # --nord-red
+green   = "0xA3BE8C" # --nord-green
+yellow  = "0xEBCB8B" # --nord-yellow
+blue    = "0x81A1C1" # --nord-accent-2
+magenta = "0xB48EAD" # --nord-purple
+cyan    = "0x8FBCBB" # --nord-accent-0
+white   = "0xE5E9F0" # --nord-fg-1
+
+# Bright colors
+[colors.bright]
+black   = "0x4C566A" # --nord-bg-3
+red     = "0xBF616A" # --nord-red
+green   = "0xA3BE8C" # --nord-green
+yellow  = "0xEBCB8B" # --nord-yellow
+blue    = "0x5E81AC" # --nord-accent-3
+magenta = "0xB48EAD" # --nord-purple
+cyan    = "0x88C0D0" # --nord-accent-1
+white   = "0xD8DEE9" # --nord-fg-2
+
+# Cursor colors
+[colors.cursor]
+text   = "0x2E3440" # matches background
+cursor = "0xD8DEE9" # light foreground
+
+# Selection colors
+[colors.selection]
+text       = "0xECEFF4"
+background = "0x434C5E" # --nord-bg-2

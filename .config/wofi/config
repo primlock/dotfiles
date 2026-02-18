@@ -1,0 +1,9 @@
+# This file configures the wayland based wofi launcher. To change the name of an entry in the app menu, modify
+# the .desktop file at /usr/share/applications/
+#
+# To remove the '>' character from a menu entry, edit the .desktop file and remove the `Actions = New` and
+# `[Desktop Action New]` section.
+
+configuration {
+	term=alacritty
+}

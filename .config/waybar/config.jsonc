@@ -1,0 +1,103 @@
+// This is the config for the waybar. It determine which modules appear and the information they display
+// For more icons see Material Design Icons (https://pictogrammers.com/library/mdi/)
+
+{
+    "layer": "bottom",
+    "position": "top",
+    "height": 38,
+    "spacing": 14,
+	"margin-top": 14,
+	"margin-left": 14,
+	"margin-right": 14,
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["battery","temperature", "pulseaudio", "bluetooth", "network"],
+
+	// Right 
+
+	"sway/workspaces": {
+		"disable-scroll": true,
+		"all-outputs": true,
+		"format": "{windows}",
+		// Find application class IDs with `swaymsg -t get_tree`
+		// Note: window-rewrite did not work on debian provided `waybar` version 0.12.0. Had to compile
+		// version 0.15.0 from source in order to make this option work properly
+		"window-rewrite": {
+			"class<firefox-esr>": "󰈹" ,
+			"class<Alacritty>": "󰞷",
+			"class<signal>": "󰭹"
+		},
+		"window-rewrite-default": "󰝦"
+	},
+
+	// Center
+
+    "clock": {
+        "format": "{:%H:%M %b %d}",
+		"tooltip": false,
+        "interval": 3
+    },
+
+	// Left
+
+    "battery": {
+		"format": "{icon}",
+		"format-high": "{icon}",
+		"format-medium": "{icon}",
+		"format-low": "{icon}",
+		"format-critical": "{icon}",
+		"format-icons": {
+			"default": ["󰂎", "󱊡", "󱊢", "󱊣"],
+			"charging": ["󰚥"]
+		},
+		"states": {
+			"high": 80,
+			"medium": 55,
+			"low": 30,
+			"critical": 10
+		},
+		"tooltip-format": "About {time} of charge left ({capacity}%)",
+		"tooltip-format-charging": "About {time} until full ({capacity}%)",
+        "interval": 10
+    },
+
+	"temperature": {
+		"format": "󰜗",
+		"format-critical": "󰈸",
+		"critical-threshold": 75,
+		"tooltip-format": "CPU is {temperatureC}°",
+		"interval": 10
+	},
+
+	// Get the name of audio sinks with `pactl list sinks`
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "{icon}",
+		"format-icons": {
+			"alsa_output.pci-0000_c4_00.6.HiFi__Speaker__sink": "󰕾",
+			"alsa_output.pci-0000_c4_00.6.HiFi__Speaker__sink-muted": "󰖁",
+			"headphone": "󰋋",
+			"headphone-muted": "󰟎"
+		},
+		"tooltip-format": "{volume}%"
+    },
+
+	"bluetooth": {
+		"format": "󰂯",
+		"format-off": "󰂲",
+		"tooktip-format": "{status}"
+	},
+
+	"network": {
+		"interface": "wlp2s0",
+        "format": "󰖩",
+        "format-wifi": "󰖩",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰖪",
+		"tooktip-format": "{ifname}",
+		"tooltip-format-wifi": "{essid}",
+		"tooltip-format-ethernet": "{ipaddr}/{cidr}",
+		"max-length": 50
+	}
+}
+
