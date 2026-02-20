@@ -6,9 +6,9 @@
     "position": "top",
     "height": 38,
     "spacing": 14,
-	"margin-top": 14,
-	"margin-left": 14,
-	"margin-right": 14,
+	"margin-top": 15,
+	"margin-left": 15,
+	"margin-right": 15,
     "modules-left": ["sway/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["battery","temperature", "pulseaudio", "bluetooth", "network"],
@@ -18,16 +18,23 @@
 	"sway/workspaces": {
 		"disable-scroll": true,
 		"all-outputs": true,
-		"format": "{windows}",
+		"format": "{icon}{windows}",
+		"format-icons": {
+			"default": "",
+			"empty": "󰧞"
+		},
 		// Find application class IDs with `swaymsg -t get_tree`
 		// Note: window-rewrite did not work on debian provided `waybar` version 0.12.0. Had to compile
 		// version 0.15.0 from source in order to make this option work properly
 		"window-rewrite": {
 			"class<firefox-esr>": "󰈹" ,
 			"class<Alacritty>": "󰞷",
-			"class<signal>": "󰭹"
-		},
-		"window-rewrite-default": "󰝦"
+			"class<signal>": "󰭹",
+			"class<neovim>": "",
+
+			// TODO: create support for an option that displays a string when no class matches (empty)
+			"class<empty>": "󰧞"
+		}
 	},
 
 	// Center
@@ -94,6 +101,7 @@
         "format-wifi": "󰖩",
         "format-ethernet": "󰈀",
         "format-disconnected": "󰖪",
+		"on-click": "~/.config/waybar/scripts/wifi-menu.sh",
 		"tooktip-format": "{ifname}",
 		"tooltip-format-wifi": "{essid}",
 		"tooltip-format-ethernet": "{ipaddr}/{cidr}",
