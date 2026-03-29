@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = {"lua", "sh"},
+  pattern = {"lua", "sh", "html", "css"},
   callback = function()
     vim.bo.expandtab = true
     vim.bo.shiftwidth = 2
