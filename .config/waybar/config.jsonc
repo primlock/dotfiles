@@ -6,9 +6,9 @@
     "position": "top",
     "height": 38,
     "spacing": 14,
-	"margin-top": 15,
-	"margin-left": 15,
-	"margin-right": 15,
+	"margin-top": 5,
+	"margin-left": 8,
+	"margin-right": 8,
     "modules-left": ["sway/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["battery","temperature", "pulseaudio", "bluetooth", "network"],
@@ -40,8 +40,8 @@
 	// Center
 
     "clock": {
-        "format": "{:%H:%M %b %d}",
-		"tooltip": false,
+        "format": "{:%H:%M}",
+		"tooltip-format": "{:%a, %b %d '%y}",
         "interval": 3
     },
 
@@ -92,6 +92,7 @@
 	"bluetooth": {
 		"format": "󰂯",
 		"format-off": "󰂲",
+		"on-click": "rofi -show wifi -modes drun,window,wifi:$HOME/.config/rofi/scripts/wifi.sh -sidebar-mode",
 		"tooktip-format": "{status}"
 	},
 
@@ -101,7 +102,7 @@
         "format-wifi": "󰖩",
         "format-ethernet": "󰈀",
         "format-disconnected": "󰖪",
-		"on-click": "~/.config/waybar/scripts/wifi-menu.sh",
+		"on-click": "rofi -show wifi -modes drun,window,wifi:$HOME/.config/rofi/scripts/wifi.sh -sidebar-mode",
 		"tooktip-format": "{ifname}",
 		"tooltip-format-wifi": "{essid}",
 		"tooltip-format-ethernet": "{ipaddr}/{cidr}",

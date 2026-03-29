@@ -37,3 +37,6 @@ HISTCONTROL=ignoreboth
 
 # Append new history lines to the history file instead of overwriting it
 shopt -s histappend
+
+# Define a variable for the location of rofi scripts
+export ROFI_SCRIPTS="$HOME/.config/rofi/scripts/"

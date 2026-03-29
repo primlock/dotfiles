@@ -30,7 +30,7 @@
 }
 
 window#waybar {
-	background-color: @bg;
+	background-color: transparent;
 	box-shadow: none;
 }
 
@@ -69,10 +69,23 @@ window#waybar {
 }
 
 /* Center */
+.modules-center {
+    background-color: @nord-gray;
+    border-radius: 6px;
+    margin: 6px 6px;
+    padding: 4px 8px;
+}
 
 #clock {
     color: @fg;
 	font-size: 14px;
+}
+
+tooltip {
+    background-color: @bg;
+    border-radius: 6px;
+	opacity: 0.95;
+	margin-top: 8px;
 }
 
 /* Right */

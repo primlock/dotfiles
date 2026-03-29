@@ -2,6 +2,11 @@
 @define-color bg rgba(46, 52, 64, 0.9);
 @define-color bg-alt rgba(55, 55, 35, 0.9);
 
+@define-color nord-bg-0 #2E3440;
+@define-color nord-bg-1 #3B4252;
+@define-color nord-bg-2 #434C5E;
+@define-color nord-bg-3 #4C566A;
+
 @define-color nord-gray #4c566a;
 @define-color nord-blue #5e81ac;
 @define-color nord-orange #d08770;
@@ -18,7 +23,14 @@
 }
 
 window {
-	background-color: @bg;
+    background: transparent;
+    border: none;
+}
+
+#outer-box {
+	background-color: @nord-bg-2;
+	border-radius: 6px;
+	overflow: hidden;
 }
 
 #input {

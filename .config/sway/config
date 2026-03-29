@@ -22,7 +22,7 @@ focus_follows_mouse no
 bindsym $mod+Shift+c reload
 
 # Lock the screen
-bindsym $mod+l exec swaylock --image $HOME/.config/sway/img/minimal-nord.png
+bindsym $mod+l exec swaylock -C $HOME/.config/swaylock/config
 
 # Exit sway
 bindsym $mod+Shift+e exec swaymsg exit
@@ -33,8 +33,9 @@ bindsym $mod+Return exec alacritty
 # Kill focused window
 bindsym $mod+q kill
 
-# Start an app launcher (requires wofi)
-bindsym $mod+d exec "pkill wofi; wofi --show drun -p Search"
+# Start an app launcher (rofi)
+# Compiled the latest stable from source because debian package lag behind, see docs
+bindsym $mod+d exec "pkill rofi; rofi -modes drun,window -show drun -sidebar-mode"
 
 # Cycle to the next workspace
 bindsym Mod1+Tab workspace next
@@ -101,7 +102,9 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 
 # Window Pane Customizations
 
-# Increase the DPI scaling - firefox to 1.75 scaling (layout.css.devPixelsPerPx = 1.75)
+
+# Increase the DPI scaling - firefox to 1.75 scaling (layout.css.devPixelsPerPx = 1.75) or turn on fractional
+# scale (widget.wayland.fractional-scale.enabled = true)
 output * scale 1.25
 
 # Inner window gap
@@ -121,11 +124,12 @@ default_border none
 default_floating_border none
 
 # Set the background image
-exec_always --no-startup-id swaybg -i $HOME/.config/sway/img/nordic-nature-forest.png -m fill
+exec swaybg -i $HOME/.config/sway/img/nordic-nature-forest.png -m fill
 
 # System controls
 
-# Launch the status bar
+# Launch the status bar (waybar)
+# Compiled the latest stable from source because Debian package lags behind, see docs
 exec_always --no-startup-id sh -c "pkill -x waybar; waybar"
 
 # Increase/decrease the brightness (requires brightnessctl)
@@ -137,3 +141,5 @@ bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ t
 bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+ 
 bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 
+# Wayland idle management (swayidle)
+exec swayidle -C $HOME/.config/swayidle/config
