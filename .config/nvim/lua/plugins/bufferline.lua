@@ -3,16 +3,32 @@
 return {
   "akinsho/bufferline.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
+  -- enabled = false,
 
   config = function()
     require("bufferline").setup({
       options = {
-        buffer_close_icon = "󰅖",
+        -- Add spacing to the buffers name
+        name_formatter = function(buf)
+          return "  " .. buf.name .. "  "
+        end,
+        show_buffer_icons = false,
+        buffer_close_icon = "󰅖 ",
         modified_icon = "● ",
         close_icon = " ",
         left_trunc_marker = " ",
         right_trunc_marker = " ",
         separator_style = "thin",
+      },
+      highlights = {
+        -- The background behind the tab line
+        fill = {
+          bg = "none",
+        },
+        buffer_selected = {
+          -- Don't italicize the active tab
+          italic = false,
+        },
       },
     })
 
