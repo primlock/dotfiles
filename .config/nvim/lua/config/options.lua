@@ -37,6 +37,9 @@ vim.opt.termguicolors = true
 -- Define the default text with that should be used when formatting
 vim.opt.textwidth = 110
 
+-- Define the character used for the vertical separator between side-by-side split windows
+vim.opt.fillchars = { vert = " " }
+
 -- Visually show the whitespace characters
 if vim.fn.has("multi_byte") == 1 and vim.o.encoding == "utf-8" then
     vim.opt.listchars = {
