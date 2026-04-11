@@ -1,51 +1,53 @@
 -- This is our plugin configuration for lualine. It uses the everforest theme which has it's own configuration
 -- at lualine/themes/everforest.lua
+    -- local colorscheme = vim.g.current_colorscheme or "auto"
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-
+  init = function()
+      -- Set laststatus to 0 on init to hide the statusline before lualine loads
+      vim.opt.laststatus = 0
+  end,
   config = function()
-    -- Get the global colorscheme and apply that theme to lualine
-    local colorscheme = vim.g.current_colorscheme or "auto"
+    -- Set laststatus to 3 in config to show a single global statusline across all windows
+    vim.opt.laststatus = 3
 
-    require('lualine').setup({
+    require("lualine").setup({
       options = {
         icons_enabled = true,
-        theme = colorscheme,
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
-        disabled_filetypes = {
-          statusline = {},
-          winbar = {},
-        },
-        always_show_tabline = true,
-        globalstatus = false,
-        refresh = {
-          statusline = 1000,
-          tabline = 1000,
-          winbar = 1000,
-        }
+        theme = "auto",
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+        disabled_filetypes = { "alpha" },
       },
       sections = {
-        lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename' },
-        lualine_x = { 'filetype' },
-        lualine_y = { 'progress' },
-        lualine_z = { 'location' }
+        lualine_a = {
+          { "mode", padding = 2 }
+        },
+        lualine_b = {
+          "branch",
+          "diff",
+          "diagnostics",
+        },
+        lualine_c = {},
+        lualine_x = {
+          { "filename", padding = 2 }
+        },
+        lualine_y = {},
+        lualine_z = {}
       },
       inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        lualine_c = { 'filename' },
-        lualine_x = { 'location' },
+        lualine_c = {},
+        lualine_x = {},
         lualine_y = {},
         lualine_z = {}
       },
       tabline = {},
       winbar = {},
       inactive_winbar = {},
-      extensions = {}
+      extensions = { "nvim-tree", "fzf" },
     })
   end
 }
