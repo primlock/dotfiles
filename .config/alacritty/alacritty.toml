@@ -23,8 +23,8 @@ bindings = [
 ]
 
 [window]
-opacity = 0.9
-padding = { x = 12, y = 10 }
+opacity = 1.0
+padding = { x = 10, y = 10 }
 
 [colors]
 
@@ -35,7 +35,7 @@ foreground = "0xECEFF4" # --nord-fg-0
 
 # Normal colors
 [colors.normal]
-black   = "0x3B4252" # --nord-bg-1
+black   = "0x2E3440" # --nord-bg-0
 red     = "0xBF616A" # --nord-red
 green   = "0xA3BE8C" # --nord-green
 yellow  = "0xEBCB8B" # --nord-yellow
