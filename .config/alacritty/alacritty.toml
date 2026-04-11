@@ -26,41 +26,30 @@ bindings = [
 opacity = 1.0
 padding = { x = 10, y = 10 }
 
-[colors]
-
-# Default colors
 [colors.primary]
-background = "0x2E3440" # --nord-bg-0
-foreground = "0xECEFF4" # --nord-fg-0
+background = "0x111827"
+foreground = "0xD1D5DB"
 
-# Normal colors
-[colors.normal]
-black   = "0x2E3440" # --nord-bg-0
-red     = "0xBF616A" # --nord-red
-green   = "0xA3BE8C" # --nord-green
-yellow  = "0xEBCB8B" # --nord-yellow
-blue    = "0x81A1C1" # --nord-accent-2
-magenta = "0xB48EAD" # --nord-purple
-cyan    = "0x8FBCBB" # --nord-accent-0
-white   = "0xE5E9F0" # --nord-fg-1
-
-# Bright colors
-[colors.bright]
-black   = "0x4C566A" # --nord-bg-3
-red     = "0xBF616A" # --nord-red
-green   = "0xA3BE8C" # --nord-green
-yellow  = "0xEBCB8B" # --nord-yellow
-blue    = "0x5E81AC" # --nord-accent-3
-magenta = "0xB48EAD" # --nord-purple
-cyan    = "0x88C0D0" # --nord-accent-1
-white   = "0xD8DEE9" # --nord-fg-2
-
-# Cursor colors
 [colors.cursor]
-text   = "0x2E3440" # matches background
-cursor = "0xD8DEE9" # light foreground
+text   = "0x111827"
+cursor = "0xD1D5DB"
 
-# Selection colors
-[colors.selection]
-text       = "0xECEFF4"
-background = "0x434C5E" # --nord-bg-2
+[colors.normal]
+black   = "0x111827"
+red     = "0xFCA5A5"
+green   = "0xB1E3AD"
+yellow  = "0xFBC19D"
+blue    = "0xBAE6FD"
+magenta = "0x957FB8"
+cyan    = "0xDDD6FE"
+white   = "0xA5F3FC"
+
+[colors.bright]
+black   = "0x6B7280"
+red     = "0xFCA5A5"
+green   = "0xB1E3AD"
+yellow  = "0xFBC19D"
+blue    = "0xBAE6FD"
+magenta = "0x938AA9"
+cyan    = "0xDDD6FE"
+white   = "0xA5F3FC"

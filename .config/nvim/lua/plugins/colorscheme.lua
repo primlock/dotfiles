@@ -12,4 +12,12 @@ return {
       vim.g.nord_bold = false
     end,
   },
+  {
+    "sam4llis/nvim-tundra",
+    name = "tundra",
+    init = function()
+      -- Pick the colorscheme presets
+      vim.g.tundra_biome = 'arctic'
+    end,
+  },
 }
