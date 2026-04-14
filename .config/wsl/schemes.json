@@ -45,5 +45,28 @@
         "selectionBackground": "#434C5E",
         "white": "#E5E9F0",
         "yellow": "#EBCB8B"
+    },
+    {
+        "background": "#22272e",
+        "black": "#545d68",
+        "blue": "#539bf5",
+        "brightBlack": "#636e7b",
+        "brightBlue": "#6cb6ff",
+        "brightCyan": "#39c5cf",
+        "brightGreen": "#6bc46d",
+        "brightPurple": "#b083f0",
+        "brightRed": "#ff938a",
+        "brightWhite": "#cdd9e5",
+        "brightYellow": "#daaa3f",
+        "cursorColor": "#adbac7",
+        "cyan": "#39c5cf",
+        "foreground": "#adbac7",
+        "green": "#57ab5a",
+        "name": "GitHub Dark Dimmed",
+        "purple": "#b083f0",
+        "red": "#f47067",
+        "selectionBackground": "#444c56",
+        "white": "#909dab",
+        "yellow": "#c69026"
     }
 ],

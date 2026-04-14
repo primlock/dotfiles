@@ -2,22 +2,12 @@
 return {
   -- Import the colorschemes
   {
-    "shaunsingh/nord.nvim",
-    name = "nord",
-    init = function ()
-      -- Enables or disables italics
-      vim.g.nord_italic = false
-
-      -- Enables or disables bold text
-      vim.g.nord_bold = false
-    end,
-  },
-  {
-    "sam4llis/nvim-tundra",
-    name = "tundra",
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
     init = function()
-      -- Pick the colorscheme presets
-      vim.g.tundra_biome = 'arctic'
+      -- options: github_dark, github_dark_dimmed, github_dark_tritanopia
+      vim.cmd('colorscheme github_dark_dimmed')
+      vim.g.current_colorscheme = "github_dark_dimmed"
     end,
   },
 }
