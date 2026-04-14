@@ -32,3 +32,21 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.tabstop = 2
   end,
 })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    local ok, palette_mod = pcall(require, "github-theme.palette")
+    if not ok then return end
+
+    local palette = palette_mod.load("github_dark_dimmed")
+    if not palette then return end
+
+    local orange = palette.scale.orange[4]
+    local blue = palette.scale.blue[4]
+
+    vim.api.nvim_set_hl(0, "NeoTreeDirectoryIcon", { fg = blue })
+    vim.api.nvim_set_hl(0, "NeoTreeGitUntracked", { fg = orange })
+  end,
+})
+
