@@ -50,12 +50,6 @@ return {
             action = 'Telescope commands',
             key = 'd',
           },
-          {
-            desc = 's sessions',
-            group = 'PreCondit',
-            action = 'LoadSession',
-            key = 'l',
-          },
         },
         footer = {
           "",
