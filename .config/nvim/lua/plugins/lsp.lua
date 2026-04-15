@@ -24,8 +24,10 @@ return {
         -- Install the defined LSP servers below
         ensure_installed = {
           "lua_ls",
+          -- install: apt install clangd
           "clangd",
-		  "pyright",
+          -- install: npm install -g pyright, deps: nodejs, npm
+          "pyright",
         },
         automatic_enable = false,
       })
@@ -71,7 +73,7 @@ return {
       -- List of servers you want to manually configure. For the full list of options see 
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
       local servers = {
-        -- Lua configuration
+        -- Lua LSP configuration
         lua_ls = {
           settings = {
             Lua = {
@@ -90,9 +92,9 @@ return {
             },
           },
         },
-        -- C/C++ configuration
+        -- C/C++ LSP configuration
         clangd = { },
-        -- Python configuration
+        -- Python LSP configuration
         pyright = {
           settings = {
             python = {

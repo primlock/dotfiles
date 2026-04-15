@@ -59,6 +59,8 @@ packages=(
   # Package management
   ca-certificates
   gnupg
+  nodejs
+  npm
   # Developer tools
   git
   tmux
