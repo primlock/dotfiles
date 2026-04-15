@@ -28,6 +28,8 @@ return {
           "clangd",
           -- install: npm install -g pyright, deps: nodejs, npm
           "pyright",
+          -- install: apt install gopls
+          "gopls",
         },
         automatic_enable = false,
       })
@@ -106,6 +108,18 @@ return {
             },
           },
         },
+        -- Golang LSP configuration
+        gopls = {
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+              },
+              staticcheck = true,
+              gofumpt = true,
+            },
+          },
+        }
       }
 
       -- Configure each server in the list to comply with the migration away from require("lspconfig") in

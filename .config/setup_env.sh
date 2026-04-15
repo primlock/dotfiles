@@ -75,6 +75,8 @@ packages=(
   gdb
   valgrind
   python3
+  golang
+  gopls
   # Network tools
   wget
   curl
