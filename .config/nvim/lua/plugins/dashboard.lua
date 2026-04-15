@@ -4,59 +4,111 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = 'VimEnter',
   config = function()
-    local datetime = os.date("%Y-%m-%d %H:%M:%S")
-    -- Header style
-    vim.api.nvim_set_hl(0, "DashboardHeader", { fg = "#5E81AC", bold = true })
-    -- Footer style
-    vim.api.nvim_set_hl(0, "DashboardFooter", { fg = "#E5E9F0", italic = true })
+
+    -- true if cwd is a .git directory, false otherwise
+    local function is_git_repo()
+      vim.fn.systemlist("git rev-parse --show-toplevel")
+      return vim.v.shell_error == 0
+    end
 
     require('dashboard').setup({
-      theme = 'hyper',
+      theme = 'doom',
       config = {
         header = {
-          "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
-          "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
-          "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
-          "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
-          "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
-          "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
-          "",
-          datetime,
-          "",
+          [[                                                ]],
+          [[                                                ]],
+          [[                                          _.oo. ]],
+          [[                  _.u[[/;:,.         .odMMMMMM' ]],
+          [[               .o888UU[[[/;:-.  .o@P^    MMM^   ]],
+          [[              oN88888UU[[[/;::-.        dP^     ]],
+          [[             dNMMNN888UU[[[/;:--.   .o@P^       ]],
+          [[            ,MMMMMMN888UU[[/;::-. o@^           ]],
+          [[            NNMMMNN888UU[[[/~.o@P^              ]],
+          [[            888888888UU[[[/o@^-..               ]],
+          [[           oI8888UU[[[/o@P^:--..                ]],
+          [[        .@^  YUU[[[/o@^;::---..                 ]],
+          [[      oMP     ^/o@P^;:::---..                   ]],
+          [[   .dMMM    .o@^ ^;::---...                     ]],
+          [[  dMMMMMMM@^`       `^^^^                       ]],
+          [[ YMMMUP^                                        ]],
+          [[  ^^                                            ]],
+          [[                                                ]],
+          [[                                                ]],
         },
-        -- show how many plugins neovim loaded
-        packages = { enable = false },
-        -- The group field is just the highlight group that gets applied to the text, you can use any valid
-        -- Neovim highlight group.
-        -- Normal, Comment Constant, String, Character, Number, Boolean, Float, Identifier, Function, etc.
-        shortcut = {
-          { desc = ' Update', group = '@keyword', action = 'Lazy update', key = 'u' },
+        center = {
           {
-            icon_hl = '@variable',
-            desc = ' files',
-            group = '@Error',
-            action = 'Telescope find_files',
+            icon = '',
+            desc = 'Find File                      ',
             key = 'f',
+            key_format = '%s',
+            key_hl = '@constructor',
+            action = 'Telescope find_files'
           },
           {
-            desc = ' keymaps',
-            group = 'String',
-            action = 'Telescope keymaps',
-            key = 'a',
+            icon = '',
+            desc = 'Find Keyword',
+            key = 'k',
+            key_format = '%s',
+            key_hl = '@constructor',
+            action = 'Telescope live_grep'
           },
           {
-            desc = ' commands',
-            group = 'Number',
-            action = 'Telescope commands',
-            key = 'd',
+            icon = '',
+            desc = 'Recent Files',
+            key = 'r',
+            key_format = '%s',
+            key_hl = '@constructor',
+            action = 'Telescope oldfiles'
+          },
+          {
+            icon = '',
+            desc = 'Git Branches',
+            key = 'b',
+            key_format = '%s',
+            key_hl = '@constructor',
+            action = function()
+              if not is_git_repo() then
+                vim.notify("Not a git repository", vim.log.levels.WARN)
+                return
+              end
+
+              require("telescope.builtin").git_branches()
+            end
+          },
+          {
+            icon = '',
+            desc = 'Git Commits',
+            key = 'h',
+            key_format = '%s',
+            key_hl = '@constructor',
+            action = function()
+              if not is_git_repo() then
+                vim.notify("Not a git repository", vim.log.levels.WARN)
+                return
+              end
+
+              require("telescope.builtin").git_commits()
+            end
+          },
+          {
+            icon = '',
+            desc = 'Git Status',
+            key = 's',
+            key_format = '%s',
+            key_hl = '@constructor',
+            action = function()
+              if not is_git_repo() then
+                vim.notify("Not a git repository", vim.log.levels.WARN)
+                return
+              end
+
+              require("telescope.builtin").git_status()
+            end
           },
         },
-        footer = {
-          "",
-          -- Insert quote here
-          ""
-        },
+        footer = {},
       },
     })
   end
 }
+
