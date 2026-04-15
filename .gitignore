@@ -1,6 +1,3 @@
 # Ignore the source repository to avoid recursion problems
 .dotfiles
 
-# Ignore the lazy.nvim generated files
-lazy-lock.json
-lazyvim.json
